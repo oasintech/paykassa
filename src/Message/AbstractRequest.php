@@ -28,114 +28,82 @@ abstract class AbstractRequest extends OmnipayRequest
         return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
     }
 
-    public function getPassphrase()
+
+    public function getFunc()
     {
-        return $this->getParameter('passphrase');
+        return $this->getParameter('func');
     }
 
-    public function setPassphrase($value)
+    public function setFunc($value)
     {
-        return $this->setParameter('passphrase', $value);
+        return $this->setParameter('func', $value);
     }
 
-    public function getAccount()
+    public function setSciId($value)
     {
-        return $this->getParameter('account');
+        return $this->setParameter('sci_id', $value);
     }
 
-    public function setAccount($value)
+    public function getSciId()
     {
-        return $this->setParameter('account', $value);
+        return $this->getParameter('sci_id');
     }
 
-    public function getMerchantID()
+
+    public function setSCiKey($value)
     {
-        return $this->getParameter('merchant_id');
+        return $this->setParameter('sci_key', $value);
     }
 
-    public function setMerchantId($value)
+
+    public function getSCiKey()
     {
-        return $this->setParameter('merchant_id', $value);
+        return $this->getParameter('sci_key');
     }
 
-    public function getAccountName()
+
+    public function getSystem()
     {
-        return $this->getParameter('accountName');
+        return $this->getParameter('system');
     }
 
-    public function setAccountName($value)
+    public function setSystem($value)
     {
-        return $this->setParameter('accountName', $value);
+        return $this->setParameter('system', $value);
     }
 
-    public function getLanguage()
+
+
+
+    public function getCommision()
     {
-        return $this->getParameter('language');
+        return $this->getParameter('commission');
     }
 
-    public function setLanguage($value)
+    public function setCommision($value)
     {
-        return $this->setParameter('language', $value);
+        return $this->setParameter('commission', $value);
     }
 
-    public function getDescriptionNoChange()
+
+    public function getPrivateHash()
     {
-        return $this->getParameter('descriptionNoChange');
+        return $this->getParameter('private_hash');
     }
 
-    public function setDescriptionNoChange($value)
+    public function setPrivateHash($value)
     {
-        return $this->setParameter('descriptionNoChange', $value);
+        return $this->setParameter('private_hash', $value);
     }
 
-    public function getBaggageFields()
+    public function getComment()
     {
-        return $this->getParameter('baggageFields');
+        return $this->getParameter('comment');
     }
 
-    public function setBaggageFields($value)
+    public function setComment($value)
     {
-        return $this->setParameter('baggageFields', $value);
-    }
-
-    public function getAvailablePaymentMethods()
-    {
-        return $this->getParameter('availablePaymentMethods');
-    }
-
-    public function setAvailablePaymentMethods($value)
-    {
-        return $this->setParameter('availablePaymentMethods', $value);
-    }
-
-    public function getAccountId()
-    {
-        return $this->getParameter('accountId');
-    }
-
-    public function setAccountId($value)
-    {
-        return $this->setParameter('accountId', $value);
-    }
-
-    public function getPassword()
-    {
-        return $this->getParameter('password');
-    }
-
-    public function setPassword($value)
-    {
-        return $this->setParameter('password', $value);
-    }
-
-    public function getPayeeAccount()
-    {
-        return $this->getParameter('payeeAccount');
-    }
-
-    public function setPayeeAccount($value)
-    {
-        return $this->setParameter('payeeAccount', $value);
+        return $this->setParameter('comment', $value);
     }
 
     public function getPaymentId()

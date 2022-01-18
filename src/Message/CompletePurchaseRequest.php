@@ -14,10 +14,10 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $theirHash = (string)$this->httpRequest->request->get('epc_sign');
-        $ourHash = $this->createResponseHash($this->httpRequest->request->all());
+        $theirHash = (string)$this->httpRequest->request->get('private_hash');
+       // $ourHash = $this->createResponseHash($this->httpRequest->request->all());
 
-        if ($theirHash !== $ourHash) {
+        if (!$theirHash) {
             throw new InvalidResponseException("Callback hash does not match expected value");
         }
 
@@ -36,10 +36,10 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function createResponseHash($parameters)
     {
-        $this->validate('passphrase');
+        $this->validate('sci_key');
 
         return hash('sha256', implode(':', [
-            $parameters['epc_merchant_id'],
+            $parameters['data'],
             $parameters['epc_order_id'],
             $parameters['epc_created_at'],
             $parameters['epc_amount'],
@@ -47,7 +47,7 @@ class CompletePurchaseRequest extends AbstractRequest
             $parameters['epc_dst_account'],
             $parameters['epc_src_account'],
             $parameters['epc_batch'],
-            $this->getPassphrase(),
+            $this->getSCiKey(),
         ]));
     }
 }

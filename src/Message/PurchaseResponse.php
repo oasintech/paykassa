@@ -10,10 +10,9 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
 {
     protected $redirectUrl;
 
-    public function __construct(RequestInterface $request, $data, $redirectUrl)
+    public function __construct(RequestInterface $request, $data)
     {
         parent::__construct($request, $data);
-        $this->redirectUrl = $redirectUrl;
     }
 
     public function isSuccessful()
@@ -28,12 +27,14 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
 
     public function getRedirectUrl()
     {
-        return $this->getRequest()->getEndpoint();
+        if (isset($this->data['data']['url'])) {
+            return $this->data['data']['url'];
+        }
     }
 
     public function getRedirectMethod()
     {
-        return 'POST';
+        return 'GET';
     }
 
     public function getRedirectData()

@@ -37,104 +37,56 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'merchant_id'     => '',
-            'passphrase'  => '',
+            //'sci_id'     => '',
+            'sci_key'  => '',
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantID()
+
+    public function getFunc()
     {
-        return $this->getParameter('merchant_id');
+        return $this->getParameter('func');
     }
 
-    public function setMerchantId($value)
+
+    public function setFunc($value)
     {
-        return $this->setParameter('merchant_id', $value);
+        return $this->setParameter('func', $value);
     }
 
-    public function getAccount()
+
+    public function setSCiKey($value)
     {
-        return $this->getParameter('account');
+        return $this->setParameter('sci_key', $value);
     }
 
-    /**
-     * @param string $value
-     * @return Gateway
-     */
-    public function setAccount(string $value)
+
+    public function getSCiKey()
     {
-        return $this->setParameter('account', $value);
+        return $this->getParameter('sci_key');
     }
 
-    /**
-     * @return string
-     */
-    public function getAccountId()
+
+    public function setSciId($value)
     {
-        return $this->getParameter('accountId');
+        return $this->setParameter('sci_id', $value);
     }
 
-    /**
-     * @param $value
-     * @return Gateway
-     */
-    public function setAccountId($value)
+    public function getSciId()
     {
-        return $this->setParameter('accountId', $value);
+        return $this->getParameter('sci_id');
     }
 
-    /**
-     * @return string
-     */
-    public function getAccountName()
+
+
+    public function getPrivateHash()
     {
-        return $this->getParameter('accountName');
+        return $this->getParameter('private_hash');
     }
 
-    /**
-     * @param $value
-     * @return Gateway
-     */
-    public function setAccountName($value)
+    public function setPrivateHash($value)
     {
-        return $this->setParameter('accountName', $value);
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassphrase()
-    {
-        return $this->getParameter('passphrase');
-    }
-
-    /**
-     * @param $value
-     * @return Gateway
-     */
-    public function setPassphrase($value)
-    {
-        return $this->setParameter('passphrase', $value);
-    }
-
-    /**
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->getParameter('password');
-    }
-
-    /**
-     * @param $value
-     * @return Gateway
-     */
-    public function setPassword($value)
-    {
-        return $this->setParameter('password', $value);
+        return $this->setParameter('private_hash', $value);
     }
 
     public function getPaymentId()
