@@ -16,7 +16,7 @@ class PurchaseRequest extends AbstractRequest
         // Validate required parameters before return data
         $this->validate('func', 'sci_key', 'sci_id', 'currency', 'amount');
 
-        // dd($this->getSciId());
+     
 
         $data['func'] = $this->getFunc(); // "sci_create_order";
         $data['sci_id'] = $this->getSciId();
@@ -27,22 +27,12 @@ class PurchaseRequest extends AbstractRequest
         $data['system'] = $this->getSystem();
         $data['phone'] = FALSE;
         $data['comment'] = $this->getComment();
-        $data['paid_commission'] = $this->getCommision() ?? 'client';
+        $data['paid_commission'] = $this->getCommision() ?? 'shop';
         $data['test'] = FALSE;
 
-        //  $data['epc_status_url'] = $this->getNotifyUrl();
-        //   $data['epc_success_url'] = $this->getReturnUrl();
-        //  $data['epc_cancel_url'] = $this->getCancelUrl();
-        //  $data['epc_descr'] = $this->getDescription();
 
         return $data;
     }
-    /*
-    public function sendData($data)
-    {
-        return new PurchaseResponse($this, $data, $this->getEndpoint());
-    }
-    */
 
 
     protected function getHeaders()

@@ -50,6 +50,23 @@ abstract class AbstractRequest extends OmnipayRequest
     }
 
 
+    /**
+     * @return string
+     */
+    public function getAccount()
+    {
+        return $this->getParameter('account');
+    }
+
+    /**
+     * @param string $value
+     * @return Gateway
+     */
+    public function setAccount(string $value)
+    {
+        return $this->setParameter('account', $value);
+    }
+
     public function setSCiKey($value)
     {
         return $this->setParameter('sci_key', $value);
@@ -59,6 +76,26 @@ abstract class AbstractRequest extends OmnipayRequest
     public function getSCiKey()
     {
         return $this->getParameter('sci_key');
+    }
+
+    public function setApiId($value)
+    {
+        return $this->setParameter('api_id', $value);
+    }
+
+    public function getApiId()
+    {
+        return $this->getParameter('api_id');
+    }
+
+    public function setApiKey($value)
+    {
+        return $this->setParameter('api_key', $value);
+    }
+
+    public function getApiKey()
+    {
+        return $this->getParameter('api_key');
     }
 
 
@@ -72,8 +109,15 @@ abstract class AbstractRequest extends OmnipayRequest
         return $this->setParameter('system', $value);
     }
 
+    public function getCurrency()
+    {
+        return $this->getParameter('currency');
+    }
 
-
+    public function setCurrency($value)
+    {
+        return $this->setParameter('currency', $value);
+    }
 
     public function getCommision()
     {

@@ -78,6 +78,52 @@ class Gateway extends AbstractGateway
     }
 
 
+    /**
+     * @return string
+     */
+    public function getAccount()
+    {
+        return $this->getParameter('account');
+    }
+
+    /**
+     * @param string $value
+     * @return Gateway
+     */
+    public function setAccount($value)
+    {
+        return $this->setParameter('account', $value);
+    }
+
+    public function setApiId($value)
+    {
+        return $this->setParameter('api_id', $value);
+    }
+
+    public function getApiId()
+    {
+        return $this->getParameter('api_id');
+    }
+
+    public function setApiKey($value)
+    {
+        return $this->setParameter('api_key', $value);
+    }
+
+    public function getApiKey()
+    {
+        return $this->getParameter('api_key');
+    }
+
+    public function setSystem($value)
+    {
+        return $this->setParameter('system', $value);
+    }
+
+    public function getSystem()
+    {
+        return $this->getParameter('system');
+    }
 
     public function getPrivateHash()
     {

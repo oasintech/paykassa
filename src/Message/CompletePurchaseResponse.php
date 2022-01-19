@@ -9,12 +9,12 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
 {
     public function isSuccessful()
     {
-        return $this->data['error'] == false;
+        return !$this->data->error;
     }
 
     public function isCancelled()
     {
-        return !$this->data['error'];
+        return isset($this->data->error) && $this->data->error;
     }
 
     public function isRedirect()
@@ -39,22 +39,27 @@ class CompletePurchaseResponse extends AbstractResponse implements RedirectRespo
 
     public function getTransactionId()
     {
-        return isset($this->data['data']['order_id']) ? $this->data['order_id'] : null;
+        return isset($this->data->data->order_id) ? $this->data->data->order_id : null;
     }
 
     public function getAmount()
     {
-        return isset($this->data['data']['amount']) ? $this->data['data']['amount'] : null;
+        return isset($this->data->data->amount) ? $this->data->data->amount : null;
     }
 
     public function getTransactionReference()
     {
-        return isset($this->data['data']['hash']) and $this->data['data']['hash'] != 0 ? $this->data['data']['hash'] : null;
+        return isset($this->data->data->transaction) ? $this->data->data->transaction : null;
     }
 
     public function getCurrency()
     {
-        return $this->data['data']['currency'];
+        return $this->data->data->currency;
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 
     public function getMessage()

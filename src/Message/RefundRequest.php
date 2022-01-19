@@ -3,10 +3,11 @@
 namespace Omnipay\Paykassa\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
+use GuzzleHttp\Exception\BadResponseException;
 
 class RefundRequest extends AbstractRequest
 {
-    protected $endpoint = 'https://api.Paykassa.com/v1/transfer';
+    protected $endpoint = 'https://paykassa.app/api/0.5/index.php';
 
     /**
      * @return mixed
@@ -14,34 +15,39 @@ class RefundRequest extends AbstractRequest
      */
     public function getData()
     {
-        $this->validate('accountId', 'payeeAccount', 'amount', 'paymentId', 'description');
+        $this->validate('func', 'api_id', 'api_key', 'system');
 
-        $data['api_id'] = $this->getAccountId();
-        $data['api_secret'] = $this->getPassword();
-        // $data['src_account'] = $this->getAccount();
-        $data['account'] = $this->getPayeeAccount();
-        $data['currency'] = 'usd';
+        $data['func'] = $this->getFunc(); // "sci_create_order";
+        $data['shop'] = $this->getSciId();
+        $data['api_id'] = $this->getAPiId();
+        $data['api_key'] = $this->getApiKey();
+        $data['currency'] = $this->getCurrency();
+        $data['number'] = $this->getAccount();
         $data['amount'] = $this->getAmount();
-        $data['payment_id'] = ($this->getPaymentId());
-        $data['descr'] = ($this->getDescription());
+        $data['system'] = $this->getSystem();
+        $data['paid_commission'] = $this->getCommision() ?? 'shop';
 
         return $data;
     }
 
+
+    protected function getHeaders()
+    {
+        return [
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ];
+    }
+
     public function sendData($data)
     {
+        try {
+            $response = $this->httpClient->request('POST', $this->getEndpoint(), $this->getHeaders(), http_build_query($data));
+        } catch (BadResponseException $e) {
+            $response = $e->getResponse();
+        }
 
+        $result = json_decode($response->getBody()->getContents(), true);
 
-        //  dd($data);
-        $httpResponse = $this->httpClient->request(
-            'POST',
-            $this->endpoint,
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-            ],
-            http_build_query($data)
-        );
-
-        return new RefundResponse($this, $httpResponse->getBody()->getContents());
+        return new RefundResponse($this, $result);
     }
 }

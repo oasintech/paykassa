@@ -13,36 +13,31 @@ class RefundResponse extends AbstractResponse
     public function __construct(RequestInterface $request, $data)
     {
         parent::__construct($request, $data);
-        $this->success = false;
-        $this->parseResponse();
+        // $this->parseResponse();
     }
 
     public function isSuccessful()
     {
-        return $this->success;
+        return !$this->data->error;
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 
     public function getMessage()
     {
-        return $this->message;
+        return $this->data->data;
     }
 
-    private function parseResponse()
+    public function getAmount()
     {
-        $data = json_decode($this->data);
-
-        if (!isset($data->batch) && isset($data->error)) {
-            $this->message = $data->error;
-            return $this->success = false;
-        }
-
-        $this->message = $data;
-
-        return $this->success = true;
+        return isset($this->data->data->amount) ? $this->data->data->amount : null;
     }
 
     public function getBatch()
     {
-        return $this->message->batch;
+        return isset($this->data->data->txid) ? $this->data->data->txid     : null;
     }
 }

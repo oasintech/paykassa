@@ -4,6 +4,7 @@ namespace Omnipay\Paykassa\Message;
 
 use Omnipay\Common\Exception\InvalidRequestException;
 use Omnipay\Common\Exception\InvalidResponseException;
+use GuzzleHttp\Exception\BadResponseException;
 
 class CompletePurchaseRequest extends AbstractRequest
 {
@@ -14,40 +15,46 @@ class CompletePurchaseRequest extends AbstractRequest
      */
     public function getData()
     {
-        $theirHash = (string)$this->httpRequest->request->get('private_hash');
-       // $ourHash = $this->createResponseHash($this->httpRequest->request->all());
+        $theirHash = (string) $this->httpRequest->request->get('private_hash');
 
-        if (!$theirHash) {
-            throw new InvalidResponseException("Callback hash does not match expected value");
+        if (empty($theirHash)) {
+            throw new InvalidResponseException("Callback hash is expected value");
         }
 
-        return $this->httpRequest->request->all();
+        $this->validate('func', 'sci_key', 'sci_id', 'private_hash');
+
+        $data['func'] = $this->getFunc();
+        $data['sci_id'] = $this->getSciId();
+        $data['sci_key'] = $this->getSCiKey();
+        $data['private_hash'] = $this->getPrivateHash();
+
+        return $data;
+    }
+
+
+    protected function getHeaders()
+    {
+        return [
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ];
     }
 
     public function sendData($data)
     {
-        return $this->response = new CompletePurchaseResponse($this, $data);
-    }
 
-    /**
-     * @param $parameters
-     * @return string
-     * @throws InvalidRequestException
-     */
-    public function createResponseHash($parameters)
-    {
-        $this->validate('sci_key');
+        try {
+            $response = $this->httpClient->request(
+                'POST',
+                $this->getEndpoint(),
+                $this->getHeaders(),
+                http_build_query($data)
+            );
+        } catch (BadResponseException $e) {
+            $response = $e->getResponse();
+        }
 
-        return hash('sha256', implode(':', [
-            $parameters['data'],
-            $parameters['epc_order_id'],
-            $parameters['epc_created_at'],
-            $parameters['epc_amount'],
-            $parameters['epc_currency_code'],
-            $parameters['epc_dst_account'],
-            $parameters['epc_src_account'],
-            $parameters['epc_batch'],
-            $this->getSCiKey(),
-        ]));
+        $result = json_decode($response->getBody()->getContents());
+
+        return $this->response = new CompletePurchaseResponse($this, $result);
     }
 }
