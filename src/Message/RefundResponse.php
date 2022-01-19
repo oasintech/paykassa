@@ -10,12 +10,6 @@ class RefundResponse extends AbstractResponse
     protected $message;
     protected $success;
 
-    public function __construct(RequestInterface $request, $data)
-    {
-        parent::__construct($request, $data);
-        // $this->parseResponse();
-    }
-
     public function isSuccessful()
     {
         return !$this->data->error;
@@ -38,6 +32,14 @@ class RefundResponse extends AbstractResponse
 
     public function getBatch()
     {
-        return isset($this->data->data->txid) ? $this->data->data->txid     : null;
+        if (isset($this->data->data->txid) && !empty($this->data->data->txid)) {
+            return $this->data->data->txid;
+        }
+
+        if (isset($this->data->data->transaction) && !empty($this->data->data->transaction)) {
+            return $this->data->data->transaction;
+        }
+
+        return NULL;
     }
 }

@@ -17,7 +17,7 @@ class RefundRequest extends AbstractRequest
     {
         $this->validate('func', 'api_id', 'api_key', 'system');
 
-        $data['func'] = $this->getFunc(); // "sci_create_order";
+        $data['func'] = $this->getFunc();
         $data['shop'] = $this->getSciId();
         $data['api_id'] = $this->getAPiId();
         $data['api_key'] = $this->getApiKey();
@@ -41,12 +41,12 @@ class RefundRequest extends AbstractRequest
     public function sendData($data)
     {
         try {
-            $response = $this->httpClient->request('POST', $this->getEndpoint(), $this->getHeaders(), http_build_query($data));
+            $response = $this->httpClient->request('POST', $this->endpoint, $this->getHeaders(), http_build_query($data));
         } catch (BadResponseException $e) {
             $response = $e->getResponse();
         }
 
-        $result = json_decode($response->getBody()->getContents(), true);
+        $result = json_decode($response->getBody()->getContents());
 
         return new RefundResponse($this, $result);
     }
